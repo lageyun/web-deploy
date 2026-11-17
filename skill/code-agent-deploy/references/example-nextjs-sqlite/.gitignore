@@ -1,0 +1,6 @@
+node_modules/
+.next/
+.appcli/
+data/
+.env*.local
+next-env.d.ts
