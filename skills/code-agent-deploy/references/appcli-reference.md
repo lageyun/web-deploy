@@ -272,6 +272,7 @@ The category decides what the AI does:
 | APPLICATION_ASLEEP | user_input | The project is asleep: `appcli wake --wait` first, then retry |
 | PLAN_LIMIT_EXCEEDED | platform | The plan has no room for the project. `details.reason` says which limit: `projects` (more projects running than it allows: deactivate another, or upgrade), `database` (it includes no database service: SQLite, or upgrade), `database_dedicated` (no database instance of its own: use shared, or upgrade). Also `plan` and `plansUrl`. The message says the same in words |
 | BUILD_QUOTA_EXCEEDED | platform | The builds of the last 24 hours are used up; deploying is possible again after `details.retryAt`. `details`: `reason: "builds"`, `limit`, `used`, `retryAt`, `plan`, `plansUrl` |
+| DATA_QUOTA_EXCEEDED | platform | The project stores more than its plan's data space (files and database, measured every 5 minutes); new deployments are refused until it stores less. `details`: `reason: "data"`, `usedMb`, `limitMb`, `plan`, `plansUrl` |
 | APPLICATION_NOT_RUNNING | user_input | The project has no current version; deploy successfully once first |
 | PREVIOUS_TASK_UNRESOLVED | transient | There is a task whose result is not known (lost); retry later |
 | MANIFEST_INVALID | build | A field breaks the rules of 2.1; `details.field` names it |
