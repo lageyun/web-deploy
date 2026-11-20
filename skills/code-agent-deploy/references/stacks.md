@@ -10,7 +10,7 @@ When a project uses MySQL or PostgreSQL, do not put the database into the applic
 "database": { "type": "mysql", "version": "8.4" }
 ~~~
 
-- type / version: `mysql` 8.0, 8.4; `postgres` 16, 17. Prefer the major version used in local development.
+- type / version: `mysql` 8.4, `postgres` 17: the platform offers one stable version of each, and `version` may be left out. A project developed against MySQL 8.0 or PostgreSQL 15 / 16 usually runs on these unchanged; do not ask for another version.
 - mode:
   - `shared` (the default; nothing needs to be written): the platform creates a database and an account for the project inside a shared database instance. The account can reach only its own database, which keeps it logically apart from other projects. Right for most projects, and economical.
   - `dedicated`: the project has a database container of its own, and `memory` can set its memory (default 512m, at least 256m). For projects with much data, heavy load or strict isolation needs. memory cannot be written with shared mode.

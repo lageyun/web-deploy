@@ -8,22 +8,23 @@ The image is built on the deployment platform. The developer's computer does not
 
 A Dockerfile's `FROM` can use:
 
-1. **A base image the platform provides**: write the name alone, with no registry address, tag or digest. At build time the platform puts the image it maintains in its place; it is usually pulled faster and more reliably. Prefer it when the version fits.
+1. **A base image the platform provides**: write the name alone, with no registry address, tag or digest. At build time the platform puts the image it maintains in its place. These are kept on the build server ahead of time, so the build neither waits for a download nor fails when the outside registry cannot be reached. Prefer them when the version fits.
 
    | Name | Contents |
    |---|---|
    | `node-base` | Node.js 24.22.1, npm 11.19.1, Debian 12 slim; no build tools, no curl / wget |
-   | `node-20`, `node-22` | Node.js 20 / 22, Debian 12 slim |
-   | `python-3.11`, `python-3.12` | Python 3.11 / 3.12, Debian 12 slim |
-   | `java-17-jdk`, `java-21-jdk` | Eclipse Temurin JDK 17 / 21 (build stage) |
-   | `java-17-jre`, `java-21-jre` | Eclipse Temurin JRE 17 / 21 (runtime stage) |
-   | `maven-3.9-java-17`, `maven-3.9-java-21` | Maven 3.9 + JDK (build stage) |
+   | `python-3.12` | Python 3.12, Debian 12 slim |
+   | `go-1.24` | Go 1.24, Debian 12 (build stage: compile the binary here) |
+   | `debian-12` | Debian 12 slim (runtime stage for a compiled binary, e.g. one built with `go-1.24`) |
+   | `java-21-jdk` | Eclipse Temurin JDK 21 (build stage) |
+   | `java-21-jre` | Eclipse Temurin JRE 21 (runtime stage) |
+   | `maven-3.9-java-21` | Maven 3.9 + JDK 21 (build stage) |
    | `gradle-8-java-21` | Gradle 8 + JDK 21 (build stage) |
    | `tomcat-10.1-java-21` | Tomcat 10.1 + JDK 21 (WAR deployments, see stack conventions) |
 
-   All are linux/amd64. MySQL and PostgreSQL are not used as base images; see the database service in [stack conventions](stacks.md).
+   There is one stable version of each stack. A project developed against an older one (Node.js 20 or 22, Python 3.11, Java 17) usually builds and runs on it unchanged: use it rather than another public image. All are linux/amd64. MySQL and PostgreSQL are not used as base images; see the database service in [stack conventions](stacks.md).
 
-2. **Another public image**: for example `node:22-bookworm-slim`, `python:3.12-slim`, `nginx:1.27-alpine`. Images on Docker Hub are written the usual way (the platform pulls them through a mirror). Give an explicit version tag rather than `latest`. Other registries (ghcr.io, quay.io and so on) are not guaranteed to be reachable; when a pull fails, report it to the user.
+2. **Another public image**: for example `nginx:1.27-alpine`, `golang:1.25-bookworm`. Images on Docker Hub are written the usual way (the platform pulls them through a mirror at build time; it is not kept ahead, so the first build waits for the download and can fail when the mirror is unreachable). Give an explicit version tag rather than `latest`. Other registries (ghcr.io, quay.io and so on) are not guaranteed to be reachable; when a pull fails, report it to the user.
 
 The project's own Node / Python version constraint comes first: do not upgrade or downgrade it to suit the platform.
 

@@ -63,7 +63,7 @@ appcli checks them before doing anything (`appcli validate`), and the platform c
 | maxBodySize | `^[0-9]{1,4}m$`, at most the platform's limit (500m by default), default 50m |
 | database.type | `sqlite`, `mysql`, `postgres` or `none`; left out means `none`. For mysql / postgres the platform runs the database service, see [stack conventions](stacks.md) |
 | database.path | sqlite only: must lie under the mountPath of the persistent storage named `database`, with no `..` |
-| database.version | mysql only (`8.0`, `8.4`) / postgres only (`16`, `17`) |
+| database.version | mysql: `8.4` / postgres: `17`, the one version offered of each; may be left out |
 | database.mode | mysql / postgres only: `shared` (default: a database and an account of its own in a shared instance) or `dedicated` (a database container of its own), see stack conventions |
 | database.memory | Only with mode dedicated: the database container's memory, default 512m, at least 256m |
 | database.localPath | A path relative to the project. For sqlite the database file; for mysql / postgres a SQL dump file. Used only when migrating local data |
