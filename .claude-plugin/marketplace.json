@@ -1,0 +1,16 @@
+{
+  "name": "web-deploy",
+  "description": "The deployment skill of 拉格 WEB DEPLOY (Lage Web Deploy), https://deploy.lageyun.com",
+  "owner": {
+    "name": "lageyun"
+  },
+  "plugins": [
+    {
+      "name": "web-deploy",
+      "source": "./",
+      "description": "拉格 WEB DEPLOY (Lage Web Deploy): tell your AI to deploy a local project and get back the URL it runs at. No Docker or server needed on your computer. https://deploy.lageyun.com",
+      "category": "deployment",
+      "tags": ["deploy", "deployment", "hosting", "docker", "web", "api"]
+    }
+  ]
+}

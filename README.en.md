@@ -72,6 +72,15 @@ appcli auth set-key      # paste your deploy key in your own terminal
 appcli skill install     # into ~/.claude/skills/code-agent-deploy/; --project installs into this project's .claude/skills/
 ```
 
+In Claude Code you can also install this repository as a plugin (`appcli` and a deploy key are still needed). Type in Claude Code:
+
+```
+/plugin marketplace add lageyun/web-deploy
+/plugin install web-deploy@web-deploy
+```
+
+The plugin's skill is `web-deploy:code-agent-deploy` and is used when you ask to deploy the project; run `/plugin marketplace update web-deploy` later for new releases.
+
 Or copy it from this repository (`appcli` and a deploy key are still needed):
 
 ```bash

@@ -72,6 +72,15 @@ appcli auth set-key      # 在自己的终端里粘贴部署密钥
 appcli skill install     # 装到 ~/.claude/skills/code-agent-deploy/；加 --project 装到当前项目的 .claude/skills/
 ```
 
+用 Claude Code 的话，也可以把这个仓库当插件装（仍然要先装 `appcli` 并配置密钥），在 Claude Code 里输入：
+
+```
+/plugin marketplace add lageyun/web-deploy
+/plugin install web-deploy@web-deploy
+```
+
+插件装好后技能名是 `web-deploy:code-agent-deploy`，说“把这个项目部署到服务器”就会用上；以后执行 `/plugin marketplace update web-deploy` 取新版本。
+
 也可以直接从这个仓库复制（仍然要先装 `appcli` 并配置密钥）：
 
 ```bash
