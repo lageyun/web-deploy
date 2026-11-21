@@ -16,7 +16,7 @@ Notes:
 - better-sqlite3 is pinned to 12.x (12.11.1): npmmirror has a prebuilt binary of it for Node 24. It has none for 13.x, and the build would fail.
 - `package-lock.json` is not part of this template. In a project, create it with `npm install` and commit it (`npm ci` needs it).
 
-## `Dockerfile` and `.dockerignore`
+## `Dockerfile`, `.dockerignore` and `.npmrc`
 
 Written out here rather than shipped as files. In the project, write each into a file with exactly that name in the project's root.
 
@@ -55,4 +55,11 @@ node_modules
 !.env.example
 data
 *.log
+```
+
+### `.npmrc`
+
+```ini
+registry=https://registry.npmmirror.com
+better_sqlite3_binary_host=https://registry.npmmirror.com/-/binary/better-sqlite3
 ```
