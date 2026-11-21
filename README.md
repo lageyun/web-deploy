@@ -1,10 +1,10 @@
-# 拉格云 WEB DEPLOY 部署技能：让 Claude Code、Codex 等 AI 编程工具把本地项目部署上线
+# 拉格 WEB DEPLOY 部署技能：让 Claude Code、Codex 等 AI 编程工具把本地项目部署上线
 
 简体中文 | [English](README.en.md)
 
 **跟你的 AI 说一句话，把本地项目部署上线。**
 
-这个仓库是一个 **Agent Skill（AI 技能）**，技能名 `code-agent-deploy`。装上它之后，在 Claude Code、Codex、WorkBuddy 这样的 AI 编程工具里说一句“把这个项目部署到服务器”，AI 就按技能里的流程把项目改造成可以部署的样子，调用命令行 `appcli` 把源码交给 [拉格云 WEB DEPLOY](https://deploy.lageyun.com/) 平台构建和运行，完成后给你一个 HTTPS 访问地址。电脑上不用装 Docker，不用登录服务器，不用自己写部署脚本。
+这个仓库是一个 **Agent Skill（AI 技能）**，技能名 `code-agent-deploy`。装上它之后，在 Claude Code、Codex、WorkBuddy 这样的 AI 编程工具里说一句“把这个项目部署到服务器”，AI 就按技能里的流程把项目改造成可以部署的样子，调用命令行 `appcli` 把源码交给 [拉格 WEB DEPLOY](https://deploy.lageyun.com/) 平台构建和运行，完成后给你一个 HTTPS 访问地址。电脑上不用装 Docker，不用登录服务器，不用自己写部署脚本。
 
 [平台首页](https://deploy.lageyun.com/) · [价格与套餐](https://deploy.lageyun.com/pricing) · [按技术栈的教程](https://deploy.lageyun.com/tutorials) · [完整说明](https://deploy.lageyun.com/guide) · [技能本体 SKILL.md](skills/code-agent-deploy/SKILL.md) · [反馈](https://github.com/lageyun/web-deploy/issues)
 

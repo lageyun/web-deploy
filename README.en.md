@@ -1,4 +1,4 @@
-# Lageyun Web Deploy (拉格云 WEB DEPLOY): an Agent Skill that lets Claude Code, Codex and other AI coding agents deploy your project
+# Lage Web Deploy (拉格 WEB DEPLOY): an Agent Skill that lets Claude Code, Codex and other AI coding agents deploy your project
 
 [简体中文](README.md) | English
 
