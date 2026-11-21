@@ -184,6 +184,7 @@ Errors about the plan (none of them is a problem of the project: do not change t
 | `APPLICATION_ASLEEP` | The project is asleep. Run `appcli wake --wait --json`, and when it succeeds retry the original command (`appcli deploy` wakes the project itself and does not meet this error) |
 | `PLAN_LIMIT_EXCEEDED` | The plan has no room: too many projects, or a database service the plan does not include. Pass the `message` on to the user and ask them to upgrade on the console's Plans page (`/plans`), or to deactivate projects they no longer need |
 | `BUILD_QUOTA_EXCEEDED` | The builds of the last 24 hours are used up. Tell the user they can deploy again after `details.retryAt`, or upgrade the plan; do not retry before then |
+| `TERMS_NOT_ACCEPTED` | The platform's user agreement was updated. Run `appcli console` and ask the user to open the link and agree; retry after they have |
 | `DATA_QUOTA_EXCEEDED` | The project stores more (files plus database, `details.usedMb`) than the plan gives one project (`details.limitMb`). Deploying again does not help: tell the user to delete data the app no longer needs, or to upgrade the plan |
 | `PROJECT_QUOTA_EXCEEDED` | The number of projects is at its limit and no new project can be created. As above: upgrade, or deactivate another project |
 
