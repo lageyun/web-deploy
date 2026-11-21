@@ -4,9 +4,9 @@
 
 **跟你的 AI 说一句话，把本地项目部署上线。**
 
-这个仓库是一个 **Agent Skill（AI 技能）**，技能名 `code-agent-deploy`。装上它之后，在 Claude Code、Codex、WorkBuddy 这样的 AI 编程工具里说一句“把这个项目部署到服务器”，AI 就按技能里的流程把项目改造成可以部署的样子，调用命令行 `appcli` 把源码交给 [WEB DEPLOY](https://console.lageyun.com/) 平台构建和运行，完成后给你一个 HTTPS 访问地址。电脑上不用装 Docker，不用登录服务器，不用自己写部署脚本。
+这个仓库是一个 **Agent Skill（AI 技能）**，技能名 `code-agent-deploy`。装上它之后，在 Claude Code、Codex、WorkBuddy 这样的 AI 编程工具里说一句“把这个项目部署到服务器”，AI 就按技能里的流程把项目改造成可以部署的样子，调用命令行 `appcli` 把源码交给 [WEB DEPLOY](https://deploy.lageyun.com/) 平台构建和运行，完成后给你一个 HTTPS 访问地址。电脑上不用装 Docker，不用登录服务器，不用自己写部署脚本。
 
-[平台首页](https://console.lageyun.com/) · [完整说明](https://console.lageyun.com/guide) · [技能本体 SKILL.md](skills/code-agent-deploy/SKILL.md) · [反馈](https://github.com/lageyun/web-deploy/issues)
+[平台首页](https://deploy.lageyun.com/) · [价格与套餐](https://deploy.lageyun.com/pricing) · [按技术栈的教程](https://deploy.lageyun.com/tutorials) · [完整说明](https://deploy.lageyun.com/guide) · [技能本体 SKILL.md](skills/code-agent-deploy/SKILL.md) · [反馈](https://github.com/lageyun/web-deploy/issues)
 
 ## 一览
 
@@ -21,12 +21,12 @@
 | 你要准备的 | Node.js 22 或更高版本，一个部署密钥（在平台注册后生成） |
 | 不需要的 | Docker、服务器、SSH、域名、证书 |
 | 部署结果 | 每个项目一个 HTTPS 二级域名，部署后不变 |
-| 平台 | [console.lageyun.com](https://console.lageyun.com/)，托管服务，面向国内网络 |
+| 平台 | [deploy.lageyun.com](https://deploy.lageyun.com/)（控制台 console.lageyun.com），托管服务，面向国内网络 |
 | 许可 | 技能以 MIT 许可开源 |
 
 ## 三步开始
 
-1. 打开 [console.lageyun.com](https://console.lageyun.com/)，用手机号注册，在后台的“部署密钥”页面生成一个密钥。注册后默认是免费版，额度见平台的套餐页。
+1. 打开 [deploy.lageyun.com](https://deploy.lageyun.com/)，用手机号注册，在后台的“部署密钥”页面生成一个密钥。注册后默认是免费版，额度见平台的套餐页。
 2. 在项目目录里打开 AI 编程工具，把下面这句话发给它：
 
    ```text
@@ -80,7 +80,7 @@ mkdir -p ~/.claude/skills
 cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 ```
 
-装好后重新打开 AI 编程工具的会话，在项目目录里说“把这个项目部署到服务器”。Claude Code 会自动加载 `~/.claude/skills/` 里的技能；其他工具不会自动加载，在这句话后面加一句“按 ~/.claude/skills/code-agent-deploy/SKILL.md 操作”。每一步的说明见平台上的[完整说明](https://console.lageyun.com/guide)。
+装好后重新打开 AI 编程工具的会话，在项目目录里说“把这个项目部署到服务器”。Claude Code 会自动加载 `~/.claude/skills/` 里的技能；其他工具不会自动加载，在这句话后面加一句“按 ~/.claude/skills/code-agent-deploy/SKILL.md 操作”。每一步的说明见平台上的[完整说明](https://deploy.lageyun.com/guide)。
 
 ## 发出去之后会发生什么
 
@@ -125,7 +125,7 @@ cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 
 ### 怎么让 Claude Code 或 Codex 把我的项目部署上线？
 
-在 [console.lageyun.com](https://console.lageyun.com/) 注册并生成部署密钥，然后在项目目录里把“三步开始”里的那句话发给 AI。AI 会自己安装 `appcli` 和这个技能，改造项目，部署，最后把访问地址交给你。
+在 [deploy.lageyun.com](https://deploy.lageyun.com/) 注册并生成部署密钥，然后在项目目录里把“三步开始”里的那句话发给 AI。AI 会自己安装 `appcli` 和这个技能，改造项目，部署，最后把访问地址交给你。
 
 ### 电脑上需要装 Docker 吗？
 
