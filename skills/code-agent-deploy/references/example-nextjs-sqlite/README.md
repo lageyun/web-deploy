@@ -15,3 +15,44 @@ A minimal project written to the ready-to-deploy checklist. Compare against it w
 Notes:
 - better-sqlite3 is pinned to 12.x (12.11.1): npmmirror has a prebuilt binary of it for Node 24. It has none for 13.x, and the build would fail.
 - `package-lock.json` is not part of this template. In a project, create it with `npm install` and commit it (`npm ci` needs it).
+
+## `Dockerfile` and `.dockerignore`
+
+Written out here rather than shipped as files. In the project, write each into a file with exactly that name in the project's root.
+
+### `Dockerfile`
+
+```dockerfile
+# Build and runtime both use the platform base image node-base (the platform pins the exact version).
+FROM node-base AS build
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci
+COPY . .
+ARG NEXT_PUBLIC_APP_URL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL
+RUN npm run build
+
+FROM node-base AS runtime
+WORKDIR /app
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+USER 10001
+CMD ["node", "server.js"]
+```
+
+### `.dockerignore`
+
+```
+node_modules
+.next
+.git
+.appcli
+.env*
+!.env.example
+data
+*.log
+```
