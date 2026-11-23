@@ -2,6 +2,21 @@
 
 The AI deploys, queries and manages through appcli. It does not call the platform's API directly and does not connect to any server. `appcli version --json` shows what the platform supports (`platform.features`): `deploy`, `rollback`, `config`, `logs`, `server_build`, `console`, `data_import`, `backups`, `restore`. Never claim to have done something with a feature the platform does not list.
 
+## Contents
+
+| Section | What is there |
+|---|---|
+| 1. Local configuration | Where the platform address, the key and the project's local state are kept; 1.1 how appcli and the skill are kept up to date (`updates`) |
+| 2. deploy.manifest.json | A complete example; 2.1 the rule for every field; 2.2 the variables the platform injects; 2.3 build-time variables (buildEnv) |
+| 3. States | A project's and a deployment's states, the fields of `appcli status`, the stages of a deployment |
+| 4. Runtime parameters | `appcli config` and what a deployment does with parameters |
+| 5. Commands and output | Every command with its options; the JSON output, `appcli plan`, exit codes |
+| 6. The result of a deployment | The fields of `result` that serve diagnosis |
+| 7. Error codes | Every code with its category and meaning: search this file for the code |
+| 8. Data and backups | What keeps data, the two kinds of backup, migrating local data |
+| 9. The entry | The address, public access and its states |
+| 10. Logs | What the platform redacts |
+
 ## 1. Local configuration
 
 | Where | What |
@@ -12,6 +27,22 @@ The AI deploys, queries and manages through appcli. It does not call the platfor
 | `.appcli/state.json` in the project | `{ "lastDeploymentId", "importDataConsent": { "applicationId", "granted" } }`; must be in .gitignore and .dockerignore |
 
 `appcli auth set-key` is run by the user in their own terminal and reads the key without showing it. The platform address is not written: appcli uses the one it carries; add `--platform <platform address>` only to use another platform. The AI never reads, prints or asks for the deploy key.
+
+### 1.1 Updates
+
+appcli and this skill both come from the platform. After the platform publishes a new version, what is already installed does not update itself. `updates` in `appcli version --json` says which of the two is behind, and the command that updates it:
+
+~~~json
+"updates": {
+  "appcli": { "current": "0.1.3", "latest": "0.1.4", "outdated": true, "command": "npm install -g https://<platform address>/downloads/appcli" },
+  "skill": { "name": "code-agent-deploy", "state": "outdated", "outdated": true, "path": "<the directory the skill is in>", "command": "appcli skill install" }
+}
+~~~
+
+- `command` is present only when `outdated` is true. Run it as it is; do not put a command together yourself.
+- The skill's `state`: `current` is the newest; `outdated`, the platform has a newer one; `unknown`, it is installed but without a record of its version (unpacked by hand, or installed by an older appcli); `missing`, it is not installed under the project's `.claude/skills/` or the user's `~/.claude/skills/`. The last three all count as behind.
+- What is looked at is the copy the AI tool would load: the project's when there is one (the update command then has `--project`), otherwise the user's.
+- When the platform gives no such information (an older platform, or one that cannot be reached), `updates` is empty and nothing is concluded.
 
 ## 2. deploy.manifest.json
 
@@ -62,7 +93,7 @@ appcli checks them before doing anything (`appcli validate`), and the platform c
 | resources.cpus | 0.25 up to the platform's limit (2.0 by default), default 1.0. Above the plan's ceiling: as for memory |
 | maxBodySize | `^[0-9]{1,4}m$`, at most the platform's limit (500m by default), default 50m |
 | database.type | `sqlite`, `mysql`, `postgres` or `none`; left out means `none`. For mysql / postgres the platform runs the database service, see [stack conventions](stacks.md) |
-| database.path | sqlite only: must lie under the mountPath of the persistent storage named `database`, with no `..` |
+| database.path | sqlite only, required (by convention `/app/data/app.db`): must lie under the mountPath of the persistent storage named `database`, with no `..` |
 | database.version | mysql: `8.4` / postgres: `17`, the one version offered of each; may be left out |
 | database.mode | mysql / postgres only: `shared` (default: a database and an account of its own in a shared instance) or `dedicated` (a database container of its own), see stack conventions |
 | database.memory | Only with mode dedicated: the database container's memory, default 512m, at least 256m |
@@ -131,22 +162,6 @@ The stages (`phase`) in a deployment's output say how far it got: `build`, `expo
 - `config set / unset / regenerate` only save a new version and restart nothing. `appcli config apply --wait` is what makes it live (the container is recreated and health-checked; a failure is undone automatically). A version conflict gives `CONFIG_CONFLICT`: read again, then change.
 - The detailed conventions are in [personal project configuration](personal-configuration.md).
 
-## 4.1 Updates
-
-appcli and this skill both come from the platform. After the platform publishes a new version, what is already installed does not update itself. `updates` in `appcli version --json` says which of the two is behind, and the command that updates it:
-
-~~~json
-"updates": {
-  "appcli": { "current": "0.1.3", "latest": "0.1.4", "outdated": true, "command": "npm install -g https://<platform address>/downloads/appcli" },
-  "skill": { "name": "code-agent-deploy", "state": "outdated", "outdated": true, "path": "<the directory the skill is in>", "command": "appcli skill install" }
-}
-~~~
-
-- `command` is present only when `outdated` is true. Run it as it is; do not put a command together yourself.
-- The skill's `state`: `current` is the newest; `outdated`, the platform has a newer one; `unknown`, it is installed but without a record of its version (unpacked by hand, or installed by an older appcli); `missing`, it is not installed under the project's `.claude/skills/` or the user's `~/.claude/skills/`. The last three all count as behind.
-- What is looked at is the copy the AI tool would load: the project's when there is one (the update command then has `--project`), otherwise the user's.
-- When the platform gives no such information (an older platform, or one that cannot be reached), `updates` is empty and nothing is concluded.
-
 ## 5. Commands and output
 
 ~~~text
@@ -195,6 +210,9 @@ appcli skill install [--project]
   "plan": { "id": "plan_free", "name": "Free", "expiresAt": null, "expiresInDays": null },
   "limits": { "projects": 1, "memoryMb": 256, "cpus": 0.25, "database": "none", "sleepAfterDays": 7, "versionsKept": 2, "dataMb": 500, "buildsPerDay": 10 },
   "usage": { "projects": 1, "asleep": 0, "asleepForPlan": 0, "buildsLast24h": 3 },
+  "projects": [
+    { "applicationId": "todo-app-k3f9", "name": "todo-app", "status": "running", "publicUrl": "https://todo-app-k3f9.<domain>/" }
+  ],
   "plansUrl": "https://<platform address>/plans",
   "notices": [
     "the one project of the plan Free is in use: an existing project can be deployed again, a new one cannot be created. Deactivate one that is no longer needed (appcli delete, run in that project), or upgrade the plan (https://<platform address>/plans)"
@@ -202,7 +220,9 @@ appcli skill install [--project]
 }
 ~~~
 
-  `notices` are the limits about to be met, each with what to do: the plan runs out within 7 days; projects asleep because the plan has no room; the plan's projects all in use; the day's builds nearly or fully used. An empty list means nothing is in the way. `plansUrl` is where the user changes plan.
+  `notices` are the limits about to be met, each with what to do: the plan runs out within 7 days; projects asleep because the plan has no room; the plan's projects all in use; the day's builds nearly or fully used. An empty list means nothing is in the way. A notice that begins "tell the user" is something the user should know and nothing is refused for it (for example: the platform's user agreement was updated and they have not agreed to it yet). `plansUrl` is where the user changes plan.
+
+  `projects` are the user's projects that take the plan's places (running, asleep, or created and not deployed yet; deactivated ones take none), oldest first: `applicationId`, `name`, `status`, `sleepReason` while asleep, `publicUrl`. They are how to learn which project is in the way when no new one can be created. An older platform does not return the list.
 
   `plan.name` is the plan's name as the platform has it. `database`: with `none` only SQLite can be used, with `shared` a shared database instance, with `dedicated` both shared and dedicated. `versionsKept` is the number of earlier versions that can be rolled back to. `dataMb` is the data space the plan states; the platform does not enforce it at present.
 - With `--import-data`, the agreement to import is recorded in `.appcli/state.json` (tied to the project ID). From then on, as long as the project ID is the same and the project has not been deployed successfully, deploy brings the data along by itself; after the first success the record is cleared. With a different project ID the record is void.
@@ -248,14 +268,7 @@ The fields of `result` that serve diagnosis:
 
 ## 7. Error codes
 
-The category decides what the AI does:
-
-| category | What to do |
-|---|---|
-| app, build | Change the project and deploy again; counts towards the automatic retries |
-| transient | As described for the code; retry unchanged at most once |
-| auth, local_env, user_input | Stop; guide the user through what to do, or ask the user for what is needed |
-| server, platform | Do not change the project and do not retry over and over; report the error code and the evidence to the user, for the platform's administrator to handle |
+The category decides what the AI does: see SKILL.md, section 6. The usual causes of a failed build or run, and what to do about errors of the plan, are in [troubleshooting](troubleshooting.md).
 
 | Error code | category | Meaning |
 |---|---|---|
@@ -266,8 +279,8 @@ The category decides what the AI does:
 | PERMISSION_DENIED | auth | Not the project's owner |
 | BAD_USAGE | user_input | A wrong command, option or value on the command line |
 | CAPABILITY_UNSUPPORTED | platform | The platform does not support the feature |
-| PROJECT_QUOTA_EXCEEDED | platform | The number of projects is at the plan's limit, so no new project can be created: the user deactivates projects that are no longer needed, or asks for a plan with more projects on the console's Plans page (`/plans`). `details`: `reason: "project_quota"`, `limit`, `used`, `plan`, `plansUrl` |
-| APPLICATION_NOT_FOUND | user_input | The applicationId in the manifest does not exist |
+| PROJECT_QUOTA_EXCEEDED | platform | The number of projects is at the plan's limit, so no new project can be created: the user deactivates projects that are no longer needed, or asks for a plan with more projects on the console's Plans page (`/plans`). `details`: `reason: "project_quota"`, `limit`, `used`, `projects` (the projects that take the places, as in `appcli plan`), `plan`, `plansUrl` |
+| APPLICATION_NOT_FOUND | user_input | The applicationId in the manifest does not exist. When the project was the user's own and has been deleted for good, the message says so and `details` has `reason: "purged"` and `purgedAt` |
 | APPLICATION_DEACTIVATED | user_input | The project is deactivated |
 | APPLICATION_ASLEEP | user_input | The project is asleep: `appcli wake --wait` first, then retry |
 | PLAN_LIMIT_EXCEEDED | platform | The plan has no room for the project. `details.reason` says which limit: `projects` (more projects running than it allows: deactivate another, or upgrade), `database` (it includes no database service: SQLite, or upgrade), `database_dedicated` (no database instance of its own: use shared, or upgrade). Also `plan` and `plansUrl`. The message says the same in words |
@@ -319,9 +332,7 @@ The category decides what the AI does:
 | SUBDOMAIN_UNAVAILABLE | user_input | The domain prefix is a reserved name or already taken; choose another |
 | DATABASE_CHANGE_NOT_ALLOWED | user_input | After the project went live, the type, version or mode of mysql / postgres was changed, or the database removed. Keep the setting as it was; when a change is needed the administrator handles it |
 | BACKUP_NOT_FOUND | user_input | The backup does not exist |
-| WAIT_TIMEOUT | transient | The local wait ran out; the task is still going |
-
-On errors of category auth or server, never try a route around the platform.
+| WAIT_TIMEOUT | transient | The local wait ran out; the task is still going. Keep waiting with `appcli deployment <id> --wait`; do not deploy again |
 
 ## 8. Data and backups
 
@@ -339,7 +350,7 @@ On errors of category auth or server, never try a route around the platform.
   - `publicUrl` (the injected `PUBLIC_URL`): always the address above.
 - The application runs at the root path `/`; no path is rewritten. Build absolute links and callback addresses from `PUBLIC_URL`.
 - A successful deployment means: the container is healthy, and the server itself reached it through the address. That the server can reach it does not mean visitors' networks can.
-- An application with sign-in uses a cookie name of its own. The address is normally HTTPS (ended at the platform's gateway): set the cookie's Secure attribute from the request header `X-Forwarded-Proto`, or leave it unset; never force it.
+- HTTPS ends at the platform's gateway: the application listens on plain HTTP and configures no domain or certificate of its own. The request header `X-Forwarded-Proto` is the protocol the visitor really used.
 
 ## 10. Logs
 

@@ -53,8 +53,10 @@ An Agent Skill is a set of instructions for an AI coding agent: a directory with
 
 | File | Contents |
 |---|---|
-| [`SKILL.md`](skills/code-agent-deploy/SKILL.md) | The agent's workflow and the rules it never breaks |
+| [`SKILL.md`](skills/code-agent-deploy/SKILL.md) | The agent's workflow, the rules it never breaks, and when to read which of the files below |
 | [`references/appcli-reference.md`](skills/code-agent-deploy/references/appcli-reference.md) | The appcli reference: commands, manifest fields, output and error codes |
+| [`references/troubleshooting.md`](skills/code-agent-deploy/references/troubleshooting.md) | What to do when a deployment fails: where the evidence is, usual symptoms and causes, errors about the plan |
+| [`references/operations.md`](skills/code-agent-deploy/references/operations.md) | After going live: status, logs, runtime parameters, sleep, public access, restoring data, deleting, rolling back |
 | [`references/base-images.md`](skills/code-agent-deploy/references/base-images.md) | Conventions for base images and dependency downloads |
 | [`references/stacks.md`](skills/code-agent-deploy/references/stacks.md) | How Java, Python and the database services are set up |
 | [`references/personal-configuration.md`](skills/code-agent-deploy/references/personal-configuration.md) | The rules for runtime parameters |

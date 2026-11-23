@@ -53,8 +53,10 @@ Agent Skill 是给 AI 编程工具看的说明书：一个目录，里面有一�
 
 | 文件 | 内容 |
 |---|---|
-| [`SKILL.md`](skills/code-agent-deploy/SKILL.md) | AI 的部署流程和不可违反的约束 |
+| [`SKILL.md`](skills/code-agent-deploy/SKILL.md) | AI 的部署流程和不可违反的约束，以及什么时候该读下面哪份文档 |
 | [`references/appcli-reference.md`](skills/code-agent-deploy/references/appcli-reference.md) | appcli 使用参考：命令、部署清单的字段、输出和错误码 |
+| [`references/troubleshooting.md`](skills/code-agent-deploy/references/troubleshooting.md) | 部署失败时怎么排查：证据在哪、常见现象和原因、套餐限制类的错误 |
+| [`references/operations.md`](skills/code-agent-deploy/references/operations.md) | 上线之后的操作：状态、日志、运行参数、休眠、公开访问、恢复数据、删除、回滚 |
 | [`references/base-images.md`](skills/code-agent-deploy/references/base-images.md) | 基础镜像和依赖下载的约定 |
 | [`references/stacks.md`](skills/code-agent-deploy/references/stacks.md) | Java、Python 和数据库服务的写法 |
 | [`references/personal-configuration.md`](skills/code-agent-deploy/references/personal-configuration.md) | 运行参数的处理规则 |
