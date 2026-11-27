@@ -4,7 +4,7 @@
 
 **Tell your AI one sentence and your local project goes live.**
 
-This repository is an **Agent Skill** named `code-agent-deploy`. With it installed, you say "deploy this project to the server" to an AI coding agent such as Claude Code, Codex or WorkBuddy. The agent follows the skill to make the project ready to deploy, hands the source to the [LageSkills](https://skills.lageyun.com/) platform through the `appcli` command line, and gives you an HTTPS address when it is running. No Docker on your computer, no server to log in to, no deployment scripts to write.
+This repository is an **Agent Skill** named `code-agent-deploy`. With it installed, you say "deploy this project" to an AI coding agent such as Claude Code, Codex or WorkBuddy. The agent follows the skill to make the project ready to deploy, hands the source to the [LageSkills](https://skills.lageyun.com/) platform through the `appcli` command line, and gives you an HTTPS address when it is running. No Docker on your computer, no server to log in to, no deployment scripts to write.
 
 [Platform](https://skills.lageyun.com/) · [Pricing](https://skills.lageyun.com/pricing) · [Tutorials](https://skills.lageyun.com/tutorials) · [Manual](https://skills.lageyun.com/guide) · [The skill: SKILL.md](skills/code-agent-deploy/SKILL.md) · [Feedback](https://github.com/lageyun/web-deploy/issues)
 
@@ -14,7 +14,7 @@ This repository is an **Agent Skill** named `code-agent-deploy`. With it install
 |---|---|
 | What it is | A deployment skill (Agent Skill) for AI coding agents: a `SKILL.md`, reference documents and an example project |
 | Skill name | `code-agent-deploy` |
-| Works with | Claude Code (loads skills by itself); Codex, WorkBuddy and other agents that can run commands, when told to read `SKILL.md` |
+| Works with | WorkBuddy (search its skill market for "WEB Deploy"), Claude Code, Codex and other AI coding agents that can run commands and load skills |
 | What it deploys | Anything reached through a URL: websites, web applications, backend API services |
 | Stacks | Node.js (Next.js, Vite, Express and others), Python, Java (Spring Boot, WAR on Tomcat), and any other project a Dockerfile can build |
 | Databases | SQLite, MySQL 8.0 / 8.4, PostgreSQL 16 / 17 |
@@ -27,15 +27,18 @@ This repository is an **Agent Skill** named `code-agent-deploy`. With it install
 ## Get started
 
 1. Open [skills.lageyun.com](https://skills.lageyun.com/), sign up and create a deploy key on the console's Deploy keys page. New accounts start on the free plan; its limits are on the platform's Plans page. Sign-up is by mobile number with an SMS code, and the console is in Chinese.
-2. Open your AI coding agent in the project directory and send it this:
+2. Put this skill into your AI coding agent, once:
+   - **WorkBuddy**: search its skill market for "WEB Deploy" and install it, or open [its page in the market](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy).
+   - **Other AI coding agents** (Claude Code, Codex and so on): download the [skill package](https://console.lageyun.com/downloads/skill.zip) from the platform and put it into the agent's skills directory, as described under "[Installing the skill](#installing-the-skill)" below.
+3. Open your AI coding agent in the project directory and say:
 
    ```text
-   Deploy this project to the server. The deployment platform is https://console.lageyun.com . If the deploy tools are not installed yet, first run npm install -g https://console.lageyun.com/downloads/appcli and appcli skill install, then open SKILL.md in the skill directory the install command prints and follow it step by step.
+   Deploy this project
    ```
 
-3. On the first deployment the agent asks you to run `appcli auth set-key` in your own terminal and paste the key. After that it lists the changes it wants to make to the project for you to confirm.
+   There is no need to name the skill. On the first deployment the agent installs the deploy tool `appcli`, then asks you to run `appcli auth set-key` in your own terminal and paste the key. After that it lists the changes it wants to make to the project for you to confirm.
 
-You do two things in all: **type the deploy key once** and **confirm the changes the agent proposes**. Installing the tools, preparing the project, packing and deploying are done by the agent.
+After saying it you do two things: **type the deploy key once** and **confirm the changes the agent proposes**. Installing the deploy tool, preparing the project, packing and deploying are done by the agent.
 
 ## What you do not have to do
 
@@ -66,17 +69,27 @@ The skill is only the instructions; the deploying is done by the `appcli` comman
 
 ### Installing the skill
 
-Let `appcli` install it. What it installs is the copy in this repository, and when the platform publishes a new release the agent updates it before the next deployment:
+**WorkBuddy**: search its skill market for "WEB Deploy" and install it, or open [its page in the market](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy).
+
+**Other AI coding agents**: download the skill package from the platform and unpack it into a folder named `code-agent-deploy` in the agent's skills directory. The example uses `~/.claude/skills/`; use your agent's directory when it has another (the commands for Windows are in the [manual](https://skills.lageyun.com/guide) on the platform):
+
+```bash
+curl -fO https://console.lageyun.com/downloads/skill.zip
+unzip -o skill.zip -d ~/.claude/skills/code-agent-deploy
+```
+
+With either of the two you do not install `appcli` first: on the first deployment the agent installs it from the platform, as the skill tells it to, and then asks you for your deploy key.
+
+When `appcli` is already installed it can install the skill too. It is the same copy, and when the platform publishes a new release the agent updates it before the next deployment:
 
 ```bash
 npm install -g https://console.lageyun.com/downloads/appcli
-appcli auth set-key      # paste your deploy key in your own terminal
 appcli skill install     # into ~/.claude/skills/code-agent-deploy/; --project installs into this project's .claude/skills/
 ```
 
 When the first command cannot download from the platform, use `npm install -g @lagecloud/appcli` instead: the same `appcli` is published on npm.
 
-In Claude Code you can also install this repository as a plugin. Type in Claude Code:
+This repository can also be installed as a Claude Code plugin. Type in Claude Code:
 
 ```
 /plugin marketplace add lageyun/web-deploy
@@ -93,11 +106,9 @@ mkdir -p ~/.claude/skills
 cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 ```
 
-With the last two you do not install `appcli` first: on the first deployment the agent installs it from the platform, as the skill tells it to, and then asks you for your deploy key.
+Then start a new session in your AI coding agent and tell it, in the project directory, to deploy the project; there is no need to name the skill. If the agent does not follow the skill (it sits in a directory this agent does not read), add "follow ~/.claude/skills/code-agent-deploy/SKILL.md" to the sentence. Each step is explained in the [manual](https://skills.lageyun.com/guide) on the platform.
 
-Then start a new session in your AI coding agent and tell it, in the project directory, to deploy the project. Claude Code loads the skills in `~/.claude/skills/` by itself; other agents do not, so add "follow ~/.claude/skills/code-agent-deploy/SKILL.md" to the sentence. Each step is explained in the [manual](https://skills.lageyun.com/guide) on the platform.
-
-## What happens after you send it
+## What happens after you say it
 
 1. The agent identifies the project: framework, start command, port, database, upload directories, runtime parameters.
 2. It makes the project ready to deploy (Dockerfile, `.dockerignore`, `deploy.manifest.json`, a health check endpoint and so on) and shows you the whole diff once.
@@ -109,7 +120,7 @@ Then start a new session in your AI coding agent and tell it, in the project dir
 
 | Say to the agent | Command it runs |
 |---|---|
-| Deploy this project to the server | `appcli deploy --wait` |
+| Deploy this project | `appcli deploy --wait` |
 | Show the deployment status | `appcli status` |
 | Show the recent logs | `appcli logs --tail 200` |
 | Show the runtime parameters, then apply my changes | `appcli config get` / `appcli config apply` |
@@ -140,7 +151,7 @@ How each stack is set up is in the [stack conventions](skills/code-agent-deploy/
 
 ### How do I get Claude Code or Codex to deploy my project?
 
-Sign up at [skills.lageyun.com](https://skills.lageyun.com/) and create a deploy key, then send the agent the sentence under "Get started" from your project directory. The agent installs `appcli` and this skill, prepares the project, deploys it and hands you the address.
+Sign up at [skills.lageyun.com](https://skills.lageyun.com/) and create a deploy key, put this skill into your agent (see "Get started"), then tell it "deploy this project" from your project directory. The agent installs `appcli`, prepares the project, deploys it and hands you the address.
 
 ### Do I need Docker on my computer?
 
@@ -180,7 +191,7 @@ The skill is the instructions the agent reads (this repository). `appcli` is the
 
 ### How do I update the skill?
 
-You do not have to. When the platform publishes a new `appcli` or a new release of the skill, the agent notices before the next deployment and updates first. You can also run `appcli skill install` again at any time.
+You do not have to. When the platform publishes a new `appcli` or a new release of the skill, the agent notices before the next deployment and updates first. You can also run `appcli skill install` again at any time. A copy installed from WorkBuddy's skill market is updated in the market.
 
 ## Feedback
 
