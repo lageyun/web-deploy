@@ -191,7 +191,7 @@ cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 
 ### 怎么更新技能？
 
-不用管。平台发布新的 `appcli` 或技能后，AI 在下一次部署前会发现并先更新；也可以随时重新执行 `appcli skill install`。从 WorkBuddy 的技能市场装的那一份，在技能市场里更新。
+不用管。平台发布新的 `appcli` 或技能后，AI 在下一次部署前会发现并先更新，技能装在哪个工具、哪个目录，就更新在哪里（每份技能都带着标明版本的 `release.json`）。
 
 ## 反馈
 

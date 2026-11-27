@@ -48,10 +48,12 @@ This file is the workflow. The details are in the files below; read one when its
 ### 0. Before anything else
 
 ~~~bash
-appcli version --json        # is appcli installed, what the platform supports, is anything out of date
+appcli version --json --skill-dir "<the directory this SKILL.md is in>"   # is appcli installed, what the platform supports, is anything out of date
 appcli auth status --json    # are the key and the platform address configured
 appcli plan --json           # what the user's plan gives, and which projects take its places (run it once the key is configured)
 ~~~
+
+`--skill-dir` is the absolute path of the directory you read this SKILL.md from, wherever your tool keeps its skills: it is how appcli finds the copy you are running and tells whether it is current. When appcli answers that `--skill-dir` is an unknown option, it is older than 0.1.8: run `appcli version --json` without it, and update appcli as below.
 
 The image is built on the deployment platform's server. The developer's computer does not need Docker; do not ask the user to install or start it.
 
@@ -68,8 +70,8 @@ npm install -g https://console.lageyun.com/downloads/appcli
 
 **Something is out of date** (`updates` in `appcli version --json`). Update first, then go on. Update each thing at most once in a conversation.
 
-- `updates.appcli.outdated` is true: tell the user in one sentence that the deploy tool has a new version and is being updated, run `updates.appcli.command`, then run `appcli version --json` again.
-- `updates.skill.outdated` is true: run `updates.skill.command`, then read the SKILL.md in the directory it prints again and start over from this section with the new instructions.
+- `updates.appcli.outdated` is true: tell the user in one sentence that the deploy tool has a new version and is being updated, run `updates.appcli.command`, then run `appcli version` again as above.
+- `updates.skill.outdated` is true: run `updates.skill.command` as it is (it puts the new release in the same directory), then read the SKILL.md there again and start over from this section with the new instructions.
 - A failed update does not block the deployment: tell the user why it failed and go on with what is installed.
 - The output has no `updates`, or one of the two is absent: that check is not available; skip it.
 

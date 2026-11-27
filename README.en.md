@@ -191,7 +191,7 @@ The skill is the instructions the agent reads (this repository). `appcli` is the
 
 ### How do I update the skill?
 
-You do not have to. When the platform publishes a new `appcli` or a new release of the skill, the agent notices before the next deployment and updates first. You can also run `appcli skill install` again at any time. A copy installed from WorkBuddy's skill market is updated in the market.
+You do not have to. When the platform publishes a new `appcli` or a new release of the skill, the agent notices before the next deployment and updates first, in whichever agent and directory the skill is installed (every copy carries a `release.json` that says which release it is).
 
 ## Feedback
 

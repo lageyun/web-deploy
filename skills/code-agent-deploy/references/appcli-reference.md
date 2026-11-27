@@ -31,18 +31,19 @@ The AI deploys, queries and manages through appcli. It does not call the platfor
 
 ### 1.1 Updates
 
-appcli and this skill both come from the platform. After the platform publishes a new version, what is already installed does not update itself. `updates` in `appcli version --json` says which of the two is behind, and the command that updates it:
+appcli and this skill both come from the platform. After the platform publishes a new version, what is already installed does not update itself. `updates` in `appcli version --json --skill-dir <dir>` says which of the two is behind, and the command that updates it:
 
 ~~~json
 "updates": {
-  "appcli": { "current": "0.1.3", "latest": "0.1.4", "outdated": true, "command": "npm install -g https://<platform address>/downloads/appcli" },
-  "skill": { "name": "code-agent-deploy", "state": "outdated", "outdated": true, "path": "<the directory the skill is in>", "command": "appcli skill install" }
+  "appcli": { "current": "0.1.7", "latest": "0.1.8", "outdated": true, "command": "npm install -g https://<platform address>/downloads/appcli" },
+  "skill": { "name": "code-agent-deploy", "state": "outdated", "outdated": true, "path": "<the directory the skill is in>", "command": "appcli skill install --dir \"<the same directory>\"" }
 }
 ~~~
 
 - `command` is present only when `outdated` is true. Run it as it is; do not put a command together yourself.
-- The skill's `state`: `current` is the newest; `outdated`, the platform has a newer one; `unknown`, it is installed but without a record of its version (unpacked by hand, or installed by an older appcli); `missing`, it is not installed under the project's `.claude/skills/` or the user's `~/.claude/skills/`. The last three all count as behind.
-- What is looked at is the copy the AI tool would load: the project's when there is one (the update command then has `--project`), otherwise the user's.
+- `--skill-dir` names the directory this skill was loaded from, in whichever AI tool and wherever it keeps skills. Every copy of the skill carries `release.json` beside SKILL.md (which release it is); appcli compares it with the release the platform publishes. `skill install --dir` replaces that directory with the platform's release, and refuses a directory that holds something other than this skill.
+- The skill's `state`: `current` is the newest; `outdated`, the platform has a newer one; `unknown`, it is there but carries no record of its release; `missing`, there is no SKILL.md in that directory. The last three all count as behind.
+- Without `--skill-dir` (appcli older than 0.1.8 does not have it), only Claude Code's places are looked at: the project's `.claude/skills/`, then the user's `~/.claude/skills/`.
 - When the platform gives no such information (an older platform, or one that cannot be reached), `updates` is empty and nothing is concluded.
 
 ### 1.2 Announcements
@@ -200,7 +201,7 @@ appcli access external on|off    # turns public access (the second-level domain)
 appcli access name <prefix>      # changes the domain's prefix (3 to 63 lower-case letters, digits and hyphens); the new one is enabled before the old one is released
 appcli delete --confirm <applicationId> [--wait]
 appcli console
-appcli skill install [--project]
+appcli skill install [--project | --dir <dir>]   # --dir: into that very directory (see 1.1)
 ~~~
 
 - Commands are run in the project's root directory and read applicationId from deploy.manifest.json.
