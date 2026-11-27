@@ -74,7 +74,9 @@ appcli auth set-key      # paste your deploy key in your own terminal
 appcli skill install     # into ~/.claude/skills/code-agent-deploy/; --project installs into this project's .claude/skills/
 ```
 
-In Claude Code you can also install this repository as a plugin (`appcli` and a deploy key are still needed). Type in Claude Code:
+When the first command cannot download from the platform, use `npm install -g @lagecloud/appcli` instead: the same `appcli` is published on npm.
+
+In Claude Code you can also install this repository as a plugin. Type in Claude Code:
 
 ```
 /plugin marketplace add lageyun/web-deploy
@@ -83,13 +85,15 @@ In Claude Code you can also install this repository as a plugin (`appcli` and a 
 
 The plugin's skill is `web-deploy:code-agent-deploy` and is used when you ask to deploy the project; run `/plugin marketplace update web-deploy` later for new releases.
 
-Or copy it from this repository (`appcli` and a deploy key are still needed):
+Or copy it from this repository:
 
 ```bash
 git clone https://github.com/lageyun/web-deploy.git
 mkdir -p ~/.claude/skills
 cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 ```
+
+With the last two you do not install `appcli` first: on the first deployment the agent installs it from the platform, as the skill tells it to, and then asks you for your deploy key.
 
 Then start a new session in your AI coding agent and tell it, in the project directory, to deploy the project. Claude Code loads the skills in `~/.claude/skills/` by itself; other agents do not, so add "follow ~/.claude/skills/code-agent-deploy/SKILL.md" to the sentence. Each step is explained in the [manual](https://skills.lageyun.com/guide) on the platform.
 

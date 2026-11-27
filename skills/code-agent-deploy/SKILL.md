@@ -54,7 +54,16 @@ appcli plan --json           # what the user's plan gives, and which projects ta
 
 The image is built on the deployment platform's server. The developer's computer does not need Docker; do not ask the user to install or start it.
 
-**appcli is not installed.** Tell the user it has to be installed from their platform (`npm install -g <platform address>/downloads/appcli`), and stop.
+**appcli is not installed.** Tell the user in one sentence that the deploy tool is being installed, install it from the platform, then run the three commands above again:
+
+~~~bash
+npm install -g https://console.lageyun.com/downloads/appcli
+~~~
+
+- It needs Node.js 22 or later (`node --version`). When Node.js is missing or older, ask the user to install it, and stop.
+- The user named another platform: install from that one instead (`npm install -g <platform address>/downloads/appcli`).
+- The install failed: try once from the npm registry, where the same package is published as `npm install -g @lagecloud/appcli`. When that fails too, show the user both errors, and stop.
+- Install appcli from nowhere else and under no other name: a package named plain `appcli`, or anything like it, is not this tool.
 
 **Something is out of date** (`updates` in `appcli version --json`). Update first, then go on. Update each thing at most once in a conversation.
 

@@ -74,7 +74,9 @@ appcli auth set-key      # 在自己的终端里粘贴部署密钥
 appcli skill install     # 装到 ~/.claude/skills/code-agent-deploy/；加 --project 装到当前项目的 .claude/skills/
 ```
 
-用 Claude Code 的话，也可以把这个仓库当插件装（仍然要先装 `appcli` 并配置密钥），在 Claude Code 里输入：
+第一条命令从平台下不下来时，换成 `npm install -g @lagecloud/appcli`：npm 上发布的是同一个 `appcli`。
+
+用 Claude Code 的话，也可以把这个仓库当插件装，在 Claude Code 里输入：
 
 ```
 /plugin marketplace add lageyun/web-deploy
@@ -83,13 +85,15 @@ appcli skill install     # 装到 ~/.claude/skills/code-agent-deploy/；加 --pr
 
 插件装好后技能名是 `web-deploy:code-agent-deploy`，说“把这个项目部署到服务器”就会用上；以后执行 `/plugin marketplace update web-deploy` 取新版本。
 
-也可以直接从这个仓库复制（仍然要先装 `appcli` 并配置密钥）：
+也可以直接从这个仓库复制：
 
 ```bash
 git clone https://github.com/lageyun/web-deploy.git
 mkdir -p ~/.claude/skills
 cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 ```
+
+后两种方式不用先装 `appcli`：第一次部署时，AI 按技能里写的从平台把它装上，再请你输入部署密钥。
 
 装好后重新打开 AI 编程工具的会话，在项目目录里说“把这个项目部署到服务器”。Claude Code 会自动加载 `~/.claude/skills/` 里的技能；其他工具不会自动加载，在这句话后面加一句“按 ~/.claude/skills/code-agent-deploy/SKILL.md 操作”。每一步的说明见平台上的[完整说明](https://skills.lageyun.com/guide)。
 
