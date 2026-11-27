@@ -1,9 +1,9 @@
 ---
 name: code-agent-deploy
-description: Deploys a local web project to the WEB DEPLOY platform with appcli and returns the address it opens at. Makes the project ready (Dockerfile, deploy.manifest.json, health check), has the platform build and run it (no Docker and no server access on this computer), and repairs and retries from what the server reports. Use when the user asks to deploy, publish, launch or put online a website, web application or backend API (部署、上线、发布、发到服务器), and for anything about a project deployed this way - its status or logs, a site that does not open or is asleep, runtime parameters, rolling back, restoring a backup, public access or the domain prefix, deleting it, plan limits, an appcli command or error code, or deploy.manifest.json.
+description: Deploys a local web project to the LageSkills platform with appcli and returns the address it opens at. Makes the project ready (Dockerfile, deploy.manifest.json, health check), has the platform build and run it (no Docker and no server access on this computer), and repairs and retries from what the server reports. Use when the user asks to deploy, publish, launch or put online a website, web application or backend API (部署、上线、发布、发到服务器), and for anything about a project deployed this way - its status or logs, a site that does not open or is asleep, runtime parameters, rolling back, restoring a backup, public access or the domain prefix, deleting it, plan limits, an appcli command or error code, or deploy.manifest.json.
 ---
 
-# WEB DEPLOY: the deployment skill
+# LageSkills: the deployment skill
 
 ## Goal
 

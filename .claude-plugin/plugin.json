@@ -1,10 +1,10 @@
 {
   "name": "web-deploy",
-  "description": "拉格 WEB DEPLOY (Lage Web Deploy): tell your AI to deploy a local project and get back the URL it runs at. Builds on the platform (no Docker on your computer), repairs and retries from what the server reports, then shows status and logs and rolls back.",
+  "description": "LageSkills (拉格Skills): tell your AI to deploy a local project and get back the URL it runs at. Builds on the platform (no Docker on your computer), repairs and retries from what the server reports, then shows status and logs and rolls back.",
   "author": {
     "name": "lageyun"
   },
-  "homepage": "https://deploy.lageyun.com",
+  "homepage": "https://skills.lageyun.com",
   "repository": "https://github.com/lageyun/web-deploy",
   "license": "MIT",
   "keywords": ["deploy", "deployment", "hosting", "docker", "nextjs", "spring-boot", "python", "go", "agent-skill"]

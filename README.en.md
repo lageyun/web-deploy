@@ -1,12 +1,12 @@
-# Lage Web Deploy (拉格 WEB DEPLOY): an Agent Skill that lets Claude Code, Codex and other AI coding agents deploy your project
+# LageSkills (拉格Skills): an Agent Skill that lets Claude Code, Codex and other AI coding agents deploy your project
 
 [简体中文](README.md) | English
 
 **Tell your AI one sentence and your local project goes live.**
 
-This repository is an **Agent Skill** named `code-agent-deploy`. With it installed, you say "deploy this project to the server" to an AI coding agent such as Claude Code, Codex or WorkBuddy. The agent follows the skill to make the project ready to deploy, hands the source to the [WEB DEPLOY](https://deploy.lageyun.com/) platform through the `appcli` command line, and gives you an HTTPS address when it is running. No Docker on your computer, no server to log in to, no deployment scripts to write.
+This repository is an **Agent Skill** named `code-agent-deploy`. With it installed, you say "deploy this project to the server" to an AI coding agent such as Claude Code, Codex or WorkBuddy. The agent follows the skill to make the project ready to deploy, hands the source to the [LageSkills](https://skills.lageyun.com/) platform through the `appcli` command line, and gives you an HTTPS address when it is running. No Docker on your computer, no server to log in to, no deployment scripts to write.
 
-[Platform](https://deploy.lageyun.com/) · [Pricing](https://deploy.lageyun.com/pricing) · [Tutorials](https://deploy.lageyun.com/tutorials) · [Manual](https://deploy.lageyun.com/guide) · [The skill: SKILL.md](skills/code-agent-deploy/SKILL.md) · [Feedback](https://github.com/lageyun/web-deploy/issues)
+[Platform](https://skills.lageyun.com/) · [Pricing](https://skills.lageyun.com/pricing) · [Tutorials](https://skills.lageyun.com/tutorials) · [Manual](https://skills.lageyun.com/guide) · [The skill: SKILL.md](skills/code-agent-deploy/SKILL.md) · [Feedback](https://github.com/lageyun/web-deploy/issues)
 
 ## At a glance
 
@@ -21,12 +21,12 @@ This repository is an **Agent Skill** named `code-agent-deploy`. With it install
 | What you need | Node.js 22 or later, and a deploy key (created after signing up on the platform) |
 | What you do not need | Docker, a server, SSH, a domain, a certificate |
 | What you get | An HTTPS subdomain per project that does not change between deployments |
-| Platform | [deploy.lageyun.com](https://deploy.lageyun.com/) (console at console.lageyun.com), a hosted service built for networks in mainland China; the console is in Chinese |
+| Platform | [skills.lageyun.com](https://skills.lageyun.com/) (console at console.lageyun.com), a hosted service built for networks in mainland China; the console is in Chinese |
 | License | The skill is open source under MIT |
 
 ## Get started
 
-1. Open [deploy.lageyun.com](https://deploy.lageyun.com/), sign up and create a deploy key on the console's Deploy keys page. New accounts start on the free plan; its limits are on the platform's Plans page. Sign-up is by mobile number with an SMS code, and the console is in Chinese.
+1. Open [skills.lageyun.com](https://skills.lageyun.com/), sign up and create a deploy key on the console's Deploy keys page. New accounts start on the free plan; its limits are on the platform's Plans page. Sign-up is by mobile number with an SMS code, and the console is in Chinese.
 2. Open your AI coding agent in the project directory and send it this:
 
    ```text
@@ -91,7 +91,7 @@ mkdir -p ~/.claude/skills
 cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 ```
 
-Then start a new session in your AI coding agent and tell it, in the project directory, to deploy the project. Claude Code loads the skills in `~/.claude/skills/` by itself; other agents do not, so add "follow ~/.claude/skills/code-agent-deploy/SKILL.md" to the sentence. Each step is explained in the [manual](https://deploy.lageyun.com/guide) on the platform.
+Then start a new session in your AI coding agent and tell it, in the project directory, to deploy the project. Claude Code loads the skills in `~/.claude/skills/` by itself; other agents do not, so add "follow ~/.claude/skills/code-agent-deploy/SKILL.md" to the sentence. Each step is explained in the [manual](https://skills.lageyun.com/guide) on the platform.
 
 ## What happens after you send it
 
@@ -136,7 +136,7 @@ How each stack is set up is in the [stack conventions](skills/code-agent-deploy/
 
 ### How do I get Claude Code or Codex to deploy my project?
 
-Sign up at [deploy.lageyun.com](https://deploy.lageyun.com/) and create a deploy key, then send the agent the sentence under "Get started" from your project directory. The agent installs `appcli` and this skill, prepares the project, deploys it and hands you the address.
+Sign up at [skills.lageyun.com](https://skills.lageyun.com/) and create a deploy key, then send the agent the sentence under "Get started" from your project directory. The agent installs `appcli` and this skill, prepares the project, deploys it and hands you the address.
 
 ### Do I need Docker on my computer?
 
@@ -170,7 +170,7 @@ New accounts start on the free plan and can deploy straight away. The free plan'
 
 Yes, that is what the platform is built for. During the build, npm packages and binary dependencies are downloaded through mirrors in mainland China, and the skill tells the agent what to change when a dependency can only be fetched from abroad (Google fonts, for example).
 
-### How do the skill, `appcli` and the WEB DEPLOY platform fit together?
+### How do the skill, `appcli` and the LageSkills platform fit together?
 
 The skill is the instructions the agent reads (this repository). `appcli` is the command line the agent runs to pack, upload and query. The platform builds the image, runs the project and assigns its address. The three are used together.
 
