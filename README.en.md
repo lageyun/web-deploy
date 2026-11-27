@@ -14,7 +14,8 @@ This repository is an **Agent Skill** named `code-agent-deploy`. With it install
 |---|---|
 | What it is | A deployment skill (Agent Skill) for AI coding agents: a `SKILL.md`, reference documents and an example project |
 | Skill name | `code-agent-deploy` |
-| Works with | WorkBuddy (search its skill market for "WEB Deploy"), Claude Code, Codex and other AI coding agents that can run commands and load skills |
+| Works with | Claude Code, Codex, WorkBuddy and other AI coding agents that can run commands and install skills (in WorkBuddy's skill market it is "WEB Deploy") |
+| Skill package | https://skills.lageyun.com/skill.zip |
 | What it deploys | Anything reached through a URL: websites, web applications, backend API services |
 | Stacks | Node.js (Next.js, Vite, Express and others), Python, Java (Spring Boot, WAR on Tomcat), and any other project a Dockerfile can build |
 | Databases | SQLite, MySQL 8.0 / 8.4, PostgreSQL 16 / 17 |
@@ -27,18 +28,15 @@ This repository is an **Agent Skill** named `code-agent-deploy`. With it install
 ## Get started
 
 1. Open [skills.lageyun.com](https://skills.lageyun.com/), sign up and create a deploy key on the console's Deploy keys page. New accounts start on the free plan; its limits are on the platform's Plans page. Sign-up is by mobile number with an SMS code, and the console is in Chinese.
-2. Put this skill into your AI coding agent, once:
-   - **WorkBuddy**: search its skill market for "WEB Deploy" and install it, or open [its page in the market](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy).
-   - **Other AI coding agents** (Claude Code, Codex and so on): download the [skill package](https://console.lageyun.com/downloads/skill.zip) from the platform and put it into the agent's skills directory, as described under "[Installing the skill](#installing-the-skill)" below.
-3. Open your AI coding agent in the project directory and say:
+2. Open your AI coding agent in the project directory and send it this:
 
    ```text
-   Deploy this project
+   Install this agent skill https://skills.lageyun.com/skill.zip , then deploy the current project
    ```
 
-   There is no need to name the skill. On the first deployment the agent installs the deploy tool `appcli`, then asks you to run `appcli auth set-key` in your own terminal and paste the key. After that it lists the changes it wants to make to the project for you to confirm.
+   Once the skill is in, the agent follows it: it installs the deploy tool `appcli`, then asks you to run `appcli auth set-key` in your own terminal and paste the key. After that it lists the changes it wants to make to the project for you to confirm. In WorkBuddy you can also install the skill from [its skill market](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy).
 
-After saying it you do two things: **type the deploy key once** and **confirm the changes the agent proposes**. Installing the deploy tool, preparing the project, packing and deploying are done by the agent.
+After sending it you do two things: **type the deploy key once** and **confirm the changes the agent proposes**. Installing the skill and the deploy tool, preparing the project, packing and deploying are done by the agent. With the skill installed, later deployments only take "deploy this project".
 
 ## What you do not have to do
 
@@ -69,16 +67,18 @@ The skill is only the instructions; the deploying is done by the `appcli` comman
 
 ### Installing the skill
 
-**WorkBuddy**: search its skill market for "WEB Deploy" and install it, or open [its page in the market](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy).
+**Let the agent do it**: tell it "install this agent skill https://skills.lageyun.com/skill.zip". That is the first half of the sentence under "Get started".
 
-**Other AI coding agents**: download the skill package from the platform and unpack it into a folder named `code-agent-deploy` in the agent's skills directory. The example uses `~/.claude/skills/`; use your agent's directory when it has another (the commands for Windows are in the [manual](https://skills.lageyun.com/guide) on the platform):
+**WorkBuddy**: you can also search its skill market for "WEB Deploy" and install it, or open [its page in the market](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy).
+
+**By hand**: download the skill package and unpack it into a folder named `code-agent-deploy` in the agent's skills directory. The example uses `~/.claude/skills/`; use your agent's directory when it has another (the commands for Windows are in the [manual](https://skills.lageyun.com/guide) on the platform):
 
 ```bash
-curl -fO https://console.lageyun.com/downloads/skill.zip
+curl -fO https://skills.lageyun.com/skill.zip
 unzip -o skill.zip -d ~/.claude/skills/code-agent-deploy
 ```
 
-With either of the two you do not install `appcli` first: on the first deployment the agent installs it from the platform, as the skill tells it to, and then asks you for your deploy key.
+None of these needs `appcli` first: on the first deployment the agent installs it from the platform, as the skill tells it to, and then asks you for your deploy key.
 
 When `appcli` is already installed it can install the skill too. It is the same copy, and when the platform publishes a new release the agent updates it before the next deployment:
 
@@ -151,7 +151,7 @@ How each stack is set up is in the [stack conventions](skills/code-agent-deploy/
 
 ### How do I get Claude Code or Codex to deploy my project?
 
-Sign up at [skills.lageyun.com](https://skills.lageyun.com/) and create a deploy key, put this skill into your agent (see "Get started"), then tell it "deploy this project" from your project directory. The agent installs `appcli`, prepares the project, deploys it and hands you the address.
+Sign up at [skills.lageyun.com](https://skills.lageyun.com/) and create a deploy key, then send the agent the sentence under "Get started" from your project directory. The agent installs this skill and `appcli`, prepares the project, deploys it and hands you the address.
 
 ### Do I need Docker on my computer?
 

@@ -14,7 +14,8 @@
 |---|---|
 | 这是什么 | 给 AI 编程工具用的部署技能（Agent Skill）：一份 `SKILL.md`、几份参考文档和一个示例项目 |
 | 技能名 | `code-agent-deploy` |
-| 适用的 AI 工具 | WorkBuddy（在技能市场搜索“WEB Deploy”）、Claude Code、Codex 等能执行命令、能加载技能的 AI 编程工具 |
+| 适用的 AI 工具 | Claude Code、Codex、WorkBuddy 等能执行命令、能安装技能的 AI 编程工具（WorkBuddy 的技能市场里叫“WEB Deploy”） |
+| 技能包 | https://skills.lageyun.com/skill.zip |
 | 能部署什么 | 能通过网址访问的项目：网站、Web 应用、后端接口服务 |
 | 技术栈 | Node.js（Next.js、Vite、Express 等）、Python、Java（Spring Boot、WAR + Tomcat），以及其他能用 Dockerfile 构建的项目 |
 | 数据库 | SQLite、MySQL 8.0 / 8.4、PostgreSQL 16 / 17 |
@@ -24,21 +25,18 @@
 | 平台 | [skills.lageyun.com](https://skills.lageyun.com/)（控制台 console.lageyun.com），托管服务，面向国内网络 |
 | 许可 | 技能以 MIT 许可开源 |
 
-## 三步开始
+## 两步开始
 
 1. 打开 [skills.lageyun.com](https://skills.lageyun.com/)，用手机号注册，在后台的“部署密钥”页面生成一个密钥。注册后默认是免费版，额度见平台的套餐页。
-2. 给你的 AI 编程工具装上这个技能，只需要装一次：
-   - **WorkBuddy**：在技能市场搜索“WEB Deploy”安装，或者打开[它在技能市场的页面](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy)。
-   - **其他 AI 编程工具**（Claude Code、Codex 等）：从平台下载[技能包](https://console.lageyun.com/downloads/skill.zip)，放进工具的技能目录，做法见下面的“[安装技能](#安装技能)”。
-3. 在项目目录里打开 AI 编程工具，对它说：
+2. 在项目目录里打开 AI 编程工具，把下面这句话发给它：
 
    ```text
-   把这个项目部署上线
+   安装这个 Agent 技能 https://skills.lageyun.com/skill.zip ，然后把当前项目部署上线
    ```
 
-   不用提技能的名字。AI 第一次部署时会先装好部署工具 `appcli`，再请你在自己的终端里执行 `appcli auth set-key` 并粘贴密钥。之后它会把要对项目做的改动列给你确认。
+   AI 装上技能后，按技能先装好部署工具 `appcli`，再请你在自己的终端里执行 `appcli auth set-key` 并粘贴密钥。之后它会把要对项目做的改动列给你确认。用 WorkBuddy 的话，也可以在[技能市场](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy)一键安装技能。
 
-说完之后你只需要做两件事：**输入一次部署密钥**，**确认 AI 提出的改动**。安装部署工具、改造项目、打包、部署都由 AI 完成。
+发出去之后你只需要做两件事：**输入一次部署密钥**，**确认 AI 提出的改动**。安装技能和部署工具、改造项目、打包、部署都由 AI 完成。技能装好以后，再部署只要说“把这个项目部署上线”。
 
 ## 你不用做的事
 
@@ -69,16 +67,18 @@ Agent Skill 是给 AI 编程工具看的说明书：一个目录，里面有一�
 
 ### 安装技能
 
-**WorkBuddy**：在技能市场搜索“WEB Deploy”安装，或者打开[它在技能市场的页面](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy)。
+**让 AI 装**：对它说“安装这个 Agent 技能 https://skills.lageyun.com/skill.zip”。这是“两步开始”里那句话的前半句。
 
-**其他 AI 编程工具**：从平台下载技能包，解压到工具的技能目录下名为 `code-agent-deploy` 的文件夹里。下面以 `~/.claude/skills/` 为例，你的工具用别的目录时换成它的（Windows 的命令见平台上的[完整说明](https://skills.lageyun.com/guide)）：
+**WorkBuddy**：也可以在技能市场搜索“WEB Deploy”安装，或者打开[它在技能市场的页面](https://skillhub.cn/skills/org-5k9f212o/code-agent-deploy)。
+
+**自己装**：下载技能包，解压到工具的技能目录下名为 `code-agent-deploy` 的文件夹里。下面以 `~/.claude/skills/` 为例，你的工具用别的目录时换成它的（Windows 的命令见平台上的[完整说明](https://skills.lageyun.com/guide)）：
 
 ```bash
-curl -fO https://console.lageyun.com/downloads/skill.zip
+curl -fO https://skills.lageyun.com/skill.zip
 unzip -o skill.zip -d ~/.claude/skills/code-agent-deploy
 ```
 
-这两种方式都不用先装 `appcli`：第一次部署时，AI 按技能里写的从平台把它装上，再请你输入部署密钥。
+这几种方式都不用先装 `appcli`：第一次部署时，AI 按技能里写的从平台把它装上，再请你输入部署密钥。
 
 已经装了 `appcli` 的话，也可以让它来装，装的是同一份，以后平台发布新版本时 AI 会在部署前先更新它：
 
@@ -151,7 +151,7 @@ cp -r web-deploy/skills/code-agent-deploy ~/.claude/skills/
 
 ### 怎么让 Claude Code 或 Codex 把我的项目部署上线？
 
-在 [skills.lageyun.com](https://skills.lageyun.com/) 注册并生成部署密钥，给 AI 编程工具装上这个技能（见“三步开始”），然后在项目目录里对它说“把这个项目部署上线”。AI 会自己安装 `appcli`，改造项目，部署，最后把访问地址交给你。
+在 [skills.lageyun.com](https://skills.lageyun.com/) 注册并生成部署密钥，然后在项目目录里把“两步开始”里的那句话发给 AI。AI 会装上这个技能和 `appcli`，改造项目，部署，最后把访问地址交给你。
 
 ### 电脑上需要装 Docker 吗？
 
